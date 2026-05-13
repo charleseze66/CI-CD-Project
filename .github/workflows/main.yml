@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -21,8 +21,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Start Application Test
+      - name: Test Application
         run: |
           node server.js &
           sleep 5
           curl http://localhost:3000
+
+      - name: Build Docker Image
+        run: docker build -t cicd-app .
